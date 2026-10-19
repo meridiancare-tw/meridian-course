@@ -1,0 +1,641 @@
+<title>經絡照護三點式</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@500;700;900&family=Noto+Sans+TC:wght@400;500;600;700&display=swap');
+
+  :root{
+    --paper:#F0F1E7;
+    --paper-raised:#FFFFFF;
+    --paper-sunken:#E6E7D9;
+    --ink:#262018;
+    --ink-soft:#6D6657;
+    --ink-faint:#938C78;
+    --line:#DAD8C2;
+    --clay:#A8472E;
+    --clay-soft:#F3E2DB;
+    --amber:#9C7A2E;
+    --amber-soft:#F0E8D0;
+    --jade:#3F6B55;
+    --jade-soft:#DEE8DF;
+    --indigo:#3E5578;
+    --indigo-soft:#E1E6EE;
+    --shadow: rgba(38,32,24,0.10);
+    color-scheme: light;
+    font-size:19px;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --paper:#1A1C16;
+      --paper-raised:#232519;
+      --paper-sunken:#15160F;
+      --ink:#ECE7D9;
+      --ink-soft:#A8A08A;
+      --ink-faint:#7C7560;
+      --line:#3A3C2E;
+      --clay:#DD8766;
+      --clay-soft:#3B271D;
+      --amber:#D3AF62;
+      --amber-soft:#39311E;
+      --jade:#86BB9C;
+      --jade-soft:#1F2E26;
+      --indigo:#95ABD0;
+      --indigo-soft:#222B3B;
+      --shadow: rgba(0,0,0,0.35);
+    }
+  }
+  :root[data-theme="dark"]{
+    --paper:#1A1C16;
+    --paper-raised:#232519;
+    --paper-sunken:#15160F;
+    --ink:#ECE7D9;
+    --ink-soft:#A8A08A;
+    --ink-faint:#7C7560;
+    --line:#3A3C2E;
+    --clay:#DD8766;
+    --clay-soft:#3B271D;
+    --amber:#D3AF62;
+    --amber-soft:#39311E;
+    --jade:#86BB9C;
+    --jade-soft:#1F2E26;
+    --indigo:#95ABD0;
+    --indigo-soft:#222B3B;
+    --shadow: rgba(0,0,0,0.35);
+  }
+
+  *{box-sizing:border-box;}
+  body{
+    margin:0; background:var(--paper); color:var(--ink);
+    font-family:"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif;
+    line-height:1.8; font-size:1.05rem;
+    -webkit-font-smoothing:antialiased;
+  }
+  ::selection{ background:var(--clay-soft); }
+  h1,h2,h3{ font-family:"Noto Serif TC","Songti TC",serif; text-wrap:balance; margin:0; }
+  p{ margin:0; }
+  a{ color:inherit; }
+
+  .wrap{ max-width:46rem; margin:0 auto; padding:0 1.5rem 6rem; }
+
+  header.hero{
+    padding:3.5rem 1.5rem 2.5rem; text-align:center;
+    background:
+      radial-gradient(60% 80% at 50% 0%, var(--paper-sunken), transparent 70%);
+  }
+  .eyebrow{
+    font-family:"Noto Sans TC",sans-serif; font-weight:600; font-size:.78rem;
+    letter-spacing:.14em; color:var(--clay); text-transform:uppercase;
+    display:inline-flex; align-items:center; gap:.5rem; margin-bottom:1rem;
+  }
+  .eyebrow::before,.eyebrow::after{ content:""; width:1.4rem; height:1px; background:var(--clay); opacity:.5; }
+  h1.title{ font-size:clamp(2.1rem,6vw,3.1rem); font-weight:900; line-height:1.25; }
+  h1.title em{ font-style:normal; color:var(--clay); }
+  .subtitle{ margin-top:.9rem; color:var(--ink-soft); font-size:1.05rem; }
+  .org{ margin-top:.4rem; color:var(--ink-faint); font-size:.85rem; letter-spacing:.03em;}
+  .teacher-name{ margin-top:.3rem; font-size:.85rem; color:var(--ink-faint); letter-spacing:.03em; }
+  .teacher-name b{ color:var(--clay); font-weight:700; }
+
+  /* ---------- course stepper ---------- */
+  .stepper{ display:flex; align-items:flex-start; justify-content:center; gap:0; padding:1.6rem 1.2rem 0; flex-wrap:wrap; }
+  .step{ display:flex; flex-direction:column; align-items:center; gap:.5rem; width:7.4rem; position:relative; text-decoration:none; color:inherit; }
+  .step .circle{
+    width:2.3rem; height:2.3rem; border-radius:50%; display:flex; align-items:center; justify-content:center;
+    font-family:"Noto Serif TC",serif; font-weight:700; font-size:.95rem; border:2px solid var(--line);
+    background:var(--paper-raised); color:var(--ink-faint); flex:none;
+  }
+  .step .lbl{ font-size:.76rem; text-align:center; color:var(--ink-faint); line-height:1.4; }
+  .step.done .circle{ background:var(--jade-soft); border-color:var(--jade); color:var(--jade); }
+  .step.done .lbl{ color:var(--jade); font-weight:600; }
+  .step.current .circle{ background:var(--clay); border-color:var(--clay); color:#fff; }
+  .step.current .lbl{ color:var(--clay); font-weight:700; }
+  .step .connector{ position:absolute; top:1.1rem; right:50%; width:100%; height:2px; background:var(--line); z-index:-1; }
+  .step:first-child .connector{ display:none; }
+  .step.done .connector{ background:var(--jade); opacity:.5; }
+  .step:hover .lbl{ text-decoration:underline; }
+  @media (max-width:30rem){
+    .stepper{ flex-wrap:nowrap; justify-content:flex-start; overflow-x:auto; padding-left:1.5rem; padding-right:1.5rem; -webkit-overflow-scrolling:touch; }
+    .step{ width:6rem; flex:none; }
+    .step .lbl{ font-size:.68rem; }
+  }
+
+  nav.toc{
+    position:sticky; top:0; z-index:10; background:color-mix(in srgb, var(--paper) 88%, transparent);
+    backdrop-filter:blur(6px); border-bottom:1px solid var(--line);
+  }
+  nav.toc .row{
+    max-width:46rem; margin:0 auto; padding:.7rem 1.5rem; display:flex; gap:1.1rem;
+    overflow-x:auto; scrollbar-width:none;
+  }
+  nav.toc .row::-webkit-scrollbar{ display:none; }
+  nav.toc a{
+    white-space:nowrap; font-size:.82rem; color:var(--ink-soft); text-decoration:none;
+    padding:.25rem 0; border-bottom:2px solid transparent;
+  }
+  nav.toc a:hover{ color:var(--clay); border-color:var(--clay); }
+
+  section{ padding:3rem 0; border-top:1px solid var(--line); }
+  section:first-of-type{ border-top:none; }
+  .section-head{ display:flex; align-items:baseline; gap:.85rem; margin-bottom:1.5rem; }
+  .section-num{
+    font-family:"Noto Serif TC",serif; font-weight:700; font-size:1rem; color:var(--clay);
+    min-width:1.6rem;
+  }
+  h2.section-title{ font-size:clamp(1.3rem,3.4vw,1.65rem); font-weight:700; }
+  .section-lede{ color:var(--ink-soft); margin:.6rem 0 1.4rem; font-size:1.03rem; }
+
+  .card{
+    background:var(--paper-raised); border:1px solid var(--line); border-radius:14px;
+    padding:1.2rem 1.3rem; box-shadow:0 1px 2px var(--shadow);
+  }
+
+  /* ---- recap strip ---- */
+  .recap-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:.7rem; }
+  @media (max-width:36rem){ .recap-grid{ grid-template-columns:repeat(2,1fr);} }
+  .recap-card{ border-radius:12px; padding:.85rem .9rem; border:1px solid var(--line); background:var(--paper-raised); }
+  .recap-head{ display:flex; align-items:center; gap:.4rem; font-weight:700; font-size:.95rem; margin-bottom:.4rem; }
+  .mdot{ width:.6rem; height:.6rem; border-radius:50%; flex:none; }
+  .g-hy .mdot{ background:var(--amber); }
+  .g-hyang .mdot{ background:var(--clay); }
+  .g-fy .mdot{ background:var(--jade); }
+  .g-fyang .mdot{ background:var(--indigo); }
+  .recap-list{ font-size:.88rem; color:var(--ink-faint); line-height:1.65; }
+  .recap-total{ text-align:center; margin-top:1rem; font-size:.95rem; color:var(--ink-soft); }
+  .recap-total b{ color:var(--clay); font-family:"Noto Serif TC",serif; font-size:1.1rem; }
+
+  /* ---- mnemonic ---- */
+  .mnemonic{
+    background:var(--paper-sunken); border-radius:16px; padding:1.5rem 1.4rem; margin-bottom:1.4rem;
+  }
+  .mnemonic p{ font-family:"Noto Serif TC",serif; font-size:1.08rem; line-height:2.05; text-align:center; }
+  .mnemonic .hl{ color:var(--clay); font-weight:700; }
+  .clock-table{ width:100%; border-collapse:collapse; font-size:.93rem; }
+  .clock-table th,.clock-table td{ padding:.5rem .5rem; border-bottom:1px solid var(--line); text-align:left; }
+  .clock-table th{ color:var(--ink-faint); font-weight:600; font-size:.82rem; letter-spacing:.03em; }
+  .clock-table td.num{ font-family:"Noto Serif TC",serif; font-weight:700; color:var(--clay); width:1.6rem; }
+  .clock-table td.time{ color:var(--ink-faint); white-space:nowrap; font-variant-numeric:tabular-nums; }
+
+  /* ---- method intro ---- */
+  .method-flow{ display:flex; align-items:center; justify-content:center; gap:.6rem; flex-wrap:wrap; margin-bottom:1rem;}
+  .method-step{ display:flex; flex-direction:column; align-items:center; gap:.5rem; }
+  .method-circle{
+    width:4.2rem; height:4.2rem; border-radius:50%; display:flex; align-items:center; justify-content:center;
+    font-family:"Noto Serif TC",serif; font-weight:900; font-size:1.3rem; color:#fff;
+  }
+  .method-circle.c1{ background:var(--clay); }
+  .method-circle.c2{ background:var(--indigo); }
+  .method-circle.c3{ background:var(--amber); }
+  .method-label{ font-size:.94rem; font-weight:700; }
+  .method-arrow{ color:var(--ink-faint); font-size:1.3rem; }
+  .method-desc{ text-align:center; color:var(--ink-soft); font-size:1rem; max-width:34rem; margin:0 auto; }
+
+  /* ---- case cards ---- */
+  .case{
+    border:1px solid var(--line); border-radius:16px; background:var(--paper-raised);
+    padding:1.4rem 1.4rem 1.5rem; margin-bottom:1.1rem; box-shadow:0 1px 2px var(--shadow);
+  }
+  .case-head{ display:flex; align-items:center; gap:.9rem; margin-bottom:.8rem; }
+  .case-icon{
+    width:2.6rem; height:2.6rem; border-radius:10px; flex:none; display:flex; align-items:center; justify-content:center;
+    background:var(--clay-soft); color:var(--clay);
+  }
+  .case-icon svg{ width:1.5rem; height:1.5rem; }
+  .case-title{ font-size:1.12rem; font-weight:700; }
+  .case-meridians{ display:flex; gap:.4rem; margin-top:.25rem; flex-wrap:wrap; }
+  .mtag{
+    font-size:.82rem; padding:.2rem .6rem; border-radius:99px; font-weight:600;
+  }
+  .mtag.tag-dan{ background:var(--jade-soft); color:var(--jade); }
+  .mtag.tag-pang{ background:var(--indigo-soft); color:var(--indigo); }
+  .mtag.tag-dachang{ background:var(--clay-soft); color:var(--clay); }
+  .mtag.tag-wei{ background:var(--amber-soft); color:var(--amber); }
+  .mtag.tag-ren{ background:var(--jade-soft); color:var(--jade); }
+  .mtag.tag-gan{ background:var(--clay-soft); color:var(--clay); }
+  .mtag.tag-xin{ background:var(--indigo-soft); color:var(--indigo); }
+  .mtag.tag-pi{ background:var(--amber-soft); color:var(--amber); }
+  .mtag.tag-shen{ background:var(--jade-soft); color:var(--jade); }
+  .mtag.tag-du{ background:var(--indigo-soft); color:var(--indigo); }
+  .mtag.tag-xinbao{ background:var(--clay-soft); color:var(--clay); }
+  .mtag.tag-xiaochang{ background:var(--amber-soft); color:var(--amber); }
+  .mtag.tag-sanjiao{ background:var(--indigo-soft); color:var(--indigo); }
+
+  .point-list{ display:flex; flex-direction:column; gap:.1rem; }
+  .pt{ display:grid; grid-template-columns:7.2rem 1fr; gap:.8rem; padding:.75rem 0; border-top:1px dashed var(--line); }
+  .pt:first-child{ border-top:1px solid var(--line); margin-top:.3rem; }
+  .pt-name{ font-weight:700; font-size:.94rem; }
+  .pt-mer{ display:block; font-weight:500; font-size:.84rem; color:var(--ink-faint); margin-top:.1rem; }
+  .pt-body .loc{ font-size:.98rem; color:var(--ink-soft); }
+  .pt-body .loc b{ color:var(--ink); font-weight:600; }
+  .pt-body .eff{ font-size:.98rem; color:var(--ink-soft); margin-top:.3rem; }
+  .pt-body .eff::before{ content:"💡 "; }
+
+  .extra{
+    margin-top:.9rem; padding:.8rem .95rem; border-radius:10px; background:var(--paper-sunken);
+    font-size:.94rem; color:var(--ink-soft);
+  }
+  .extra b{ color:var(--ink); }
+
+  /* ---- homework ---- */
+  .homework{ display:flex; flex-direction:column; gap:.7rem; }
+  .hw-item{
+    display:flex; gap:.9rem; align-items:flex-start; background:var(--paper-raised);
+    border:1px solid var(--line); border-radius:12px; padding:.85rem 1rem;
+  }
+  .hw-num{
+    font-family:"Noto Serif TC",serif; font-weight:700; color:#fff;
+    background:var(--jade); width:1.7rem; height:1.7rem; border-radius:50%; flex:none;
+    display:flex; align-items:center; justify-content:center; font-size:.85rem;
+  }
+  .hw-text{ font-size:1.02rem; }
+  .hw-text b{ color:var(--jade); font-weight:700; }
+
+  .schedule{ width:100%; border-collapse:collapse; font-size:.88rem; }
+  .schedule th,.schedule td{ text-align:left; padding:.55rem .6rem; border-bottom:1px solid var(--line); }
+  .schedule th{ color:var(--ink-faint); font-weight:600; font-size:.76rem; letter-spacing:.04em; }
+  .schedule td.lesson{ font-weight:700; }
+  .schedule tr.current td{ color:var(--clay); }
+  .time-split{ display:flex; gap:.7rem; margin-top:1rem; flex-wrap:wrap; }
+  .time-chip{
+    flex:1 1 7rem; text-align:center; background:var(--paper-sunken); border-radius:10px; padding:.6rem .5rem;
+    font-size:.88rem; color:var(--ink-soft);
+  }
+  .time-chip b{ display:block; font-family:"Noto Serif TC",serif; font-size:1rem; color:var(--ink); margin-bottom:.1rem; }
+  .location-row{
+    margin:1.1rem 0; padding:.8rem 1rem; border-radius:10px; background:var(--jade-soft); color:var(--jade);
+    font-size:.94rem; font-weight:600;
+  }
+  .location-row b{ font-family:"Noto Serif TC",serif; }
+
+  .closing{ text-align:center; padding:3rem 1.5rem 1rem; }
+  .closing .motto{ font-family:"Noto Serif TC",serif; font-size:1.4rem; font-weight:700; }
+  .closing .motto .x{ color:var(--clay); margin:0 .5rem; font-weight:400;}
+  .next-badge{
+    display:inline-flex; align-items:center; gap:.5rem; margin-top:1.3rem; padding:.55rem 1.1rem;
+    border-radius:99px; background:var(--paper-raised); border:1px solid var(--line); font-size:.85rem; color:var(--ink-soft);
+  }
+  .next-badge b{ color:var(--clay); }
+  footer{ text-align:center; padding:2rem 1.5rem 3rem; font-size:.76rem; color:var(--ink-faint); }
+
+  .print-btn{
+    position:fixed; right:1.2rem; bottom:1.2rem; z-index:20;
+    background:var(--clay); color:#fff; border:none; border-radius:99px;
+    padding:.75rem 1.1rem; font-size:.85rem; font-family:"Noto Sans TC",sans-serif; font-weight:600;
+    box-shadow:0 4px 14px var(--shadow); cursor:pointer; display:flex; align-items:center; gap:.4rem;
+  }
+  .print-btn:hover{ filter:brightness(1.08); }
+
+  @media print{
+    nav.toc,.print-btn{ display:none !important; }
+    body{ background:#fff; }
+    section{ break-inside:avoid; }
+    .case,.card,.hw-item{ break-inside:avoid; }
+    a{ text-decoration:none; }
+  }
+  @media (max-width:28rem){
+    .pt{ grid-template-columns:1fr; }
+  }
+</style>
+
+<header class="hero">
+  <div class="eyebrow">經絡照護共好學堂・第二堂</div>
+  <h1 class="title">經絡照護<br><em>三點式</em></h1>
+  <p class="subtitle">一病、二經、三穴——8 種常見病痛的對症經絡與穴位組合</p>
+  <p class="org">台灣經絡照護共好協會</p>
+  <p class="teacher-name">授課老師・<b>菊老師</b>　Maggie 老師</p>
+</header>
+
+<div class="stepper">
+  <a class="step done" href="index.html">
+    <span class="connector"></span><span class="circle">✓</span><span class="lbl">第一堂<br>十二經絡與手法</span>
+  </a>
+  <div class="step current">
+    <span class="connector"></span><span class="circle">2</span><span class="lbl">第二堂<br>經絡照護三點式</span>
+  </div>
+  <a class="step" href="lesson3.html">
+    <span class="connector"></span><span class="circle">3</span><span class="lbl">第三堂<br>刮痧與拔罐</span>
+  </a>
+  <div class="step">
+    <span class="connector"></span><span class="circle">4</span><span class="lbl">第四堂<br>牛角撥經與頭部紓壓</span>
+  </div>
+</div>
+
+<nav class="toc">
+  <div class="row">
+    <a href="#recap">經絡複習</a>
+    <a href="#mnemonic">時辰口訣</a>
+    <a href="#method">三點式</a>
+    <a href="#cases">八大病症</a>
+    <a href="#homework">回家練習題</a>
+    <a href="#schedule">課程資訊</a>
+  </div>
+</nav>
+
+<div class="wrap">
+
+  <section id="recap">
+    <div class="section-head"><span class="section-num">01</span><h2 class="section-title">十二經絡複習</h2></div>
+    <p class="section-lede">上堂課學過的十二經絡，依循行方向分為四大群組：</p>
+    <div class="recap-grid">
+      <div class="recap-card g-hy">
+        <div class="recap-head"><span class="mdot"></span>手三陰經</div>
+        <div class="recap-list">肺經 11穴<br>心包經 9穴<br>心經 9穴</div>
+      </div>
+      <div class="recap-card g-hyang">
+        <div class="recap-head"><span class="mdot"></span>手三陽經</div>
+        <div class="recap-list">大腸經 20穴<br>三焦經 23穴<br>小腸經 19穴</div>
+      </div>
+      <div class="recap-card g-fy">
+        <div class="recap-head"><span class="mdot"></span>足三陰經</div>
+        <div class="recap-list">脾經 21穴<br>肝經 14穴<br>腎經 27穴</div>
+      </div>
+      <div class="recap-card g-fyang">
+        <div class="recap-head"><span class="mdot"></span>足三陽經</div>
+        <div class="recap-list">胃經 45穴<br>膽經 44穴<br>膀胱經 67穴</div>
+      </div>
+    </div>
+    <p class="recap-total">十二經絡各 2 條＋任督脈 2 條　共 <b>361</b> 穴</p>
+  </section>
+
+  <section id="mnemonic">
+    <div class="section-head"><span class="section-num">02</span><h2 class="section-title">十二經絡時辰順序口訣</h2></div>
+    <p class="section-lede">氣血在十二經絡中依時辰循環流注，用一個小故事就能記住順序：</p>
+    <div class="mnemonic">
+      <p>
+        有 <span class="hl">1</span> 位廢人，帶 <span class="hl">2</span> 條大腸、<span class="hl">3</span> 包味精和 <span class="hl">4</span> 顆皮球，
+        看到 <span class="hl">5</span> 個新人，帶 <span class="hl">6</span> 條小腸和 <span class="hl">7</span> 塊麵包去找 <span class="hl">8</span> 位聖人，
+        一起去買 <span class="hl">9</span> 個新包包和 <span class="hl">10</span> 根山蕉，
+        約好在 <span class="hl">11</span>、<span class="hl">12</span> 點，結拜為膽肝相照的好兄弟
+      </p>
+    </div>
+    <div class="card" style="overflow-x:auto;">
+      <table class="clock-table">
+        <thead><tr><th>序</th><th>故事關鍵字</th><th>經絡</th><th>時辰</th></tr></thead>
+        <tbody>
+          <tr><td class="num">1</td><td>廢人（諧音：肺）</td><td>肺經</td><td class="time">寅時 3–5am</td></tr>
+          <tr><td class="num">2</td><td>大腸</td><td>大腸經</td><td class="time">卯時 5–7am</td></tr>
+          <tr><td class="num">3</td><td>味精（鮮味・胃口）</td><td>胃經</td><td class="time">辰時 7–9am</td></tr>
+          <tr><td class="num">4</td><td>皮球（諧音：脾）</td><td>脾經</td><td class="time">巳時 9–11am</td></tr>
+          <tr><td class="num">5</td><td>新人（諧音：心）</td><td>心經</td><td class="time">午時 11am–1pm</td></tr>
+          <tr><td class="num">6</td><td>小腸</td><td>小腸經</td><td class="time">未時 1–3pm</td></tr>
+          <tr><td class="num">7</td><td>麵包（諧音：膀胱）</td><td>膀胱經</td><td class="time">申時 3–5pm</td></tr>
+          <tr><td class="num">8</td><td>聖人（諧音：腎）</td><td>腎經</td><td class="time">酉時 5–7pm</td></tr>
+          <tr><td class="num">9</td><td>新包包（心包）</td><td>心包經</td><td class="time">戌時 7–9pm</td></tr>
+          <tr><td class="num">10</td><td>山蕉（諧音：三焦）</td><td>三焦經</td><td class="time">亥時 9–11pm</td></tr>
+          <tr><td class="num">11</td><td>結拜兄弟之一</td><td>膽經</td><td class="time">子時 11pm–1am</td></tr>
+          <tr><td class="num">12</td><td>肝膽相照</td><td>肝經</td><td class="time">丑時 1–3am</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="method">
+    <div class="section-head"><span class="section-num">03</span><h2 class="section-title">經絡照護三點式</h2></div>
+    <p class="section-lede">面對任何病痛，用這套方法快速找到下手處：</p>
+    <div class="method-flow">
+      <div class="method-step"><div class="method-circle c1">一病</div><div class="method-label">確認症狀</div></div>
+      <div class="method-arrow">→</div>
+      <div class="method-step"><div class="method-circle c2">二經</div><div class="method-label">鎖定經絡</div></div>
+      <div class="method-arrow">→</div>
+      <div class="method-step"><div class="method-circle c3">三穴</div><div class="method-label">按壓穴位</div></div>
+    </div>
+    <p class="method-desc">先確認「一個病症」，找出相關的「兩條經絡」，再鎖定「三個穴位」按壓，就是本堂課八個常見病痛案例共通的架構。</p>
+  </section>
+
+  <section id="cases">
+    <div class="section-head"><span class="section-num">04</span><h2 class="section-title">八大常見病痛照護</h2></div>
+
+    <!-- 1 頸肩痛 -->
+    <div class="case">
+      <div class="case-head">
+        <div class="case-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="6" r="3"/><path d="M5 20c0-4 3-7 7-7s7 3 7 7"/></svg></div>
+        <div><div class="case-title">頸肩痛</div>
+          <div class="case-meridians"><span class="mtag tag-dan">膽經</span><span class="mtag tag-dachang">大腸經</span></div>
+        </div>
+      </div>
+      <div class="point-list">
+        <div class="pt">
+          <div class="pt-name">風池穴<span class="pt-mer">膽經</span></div>
+          <div class="pt-body"><div class="loc"><b>位置：</b>後頸部枕骨下方，髮際線凹陷處，胸鎖乳突肌與斜方肌上端之間</div><div class="eff">緩解因頸椎僵硬引起的頭暈、眼花及後頸部緊繃感</div></div>
+        </div>
+        <div class="pt">
+          <div class="pt-name">肩井穴<span class="pt-mer">膽經</span></div>
+          <div class="pt-body"><div class="loc"><b>位置：</b>肩膀最高處，大椎穴與肩峰外側端連線中點</div><div class="eff">治療肩膀痠痛的「王牌穴位」——肩井通，全身鬆；也緩解頭痛與頸部僵硬</div></div>
+        </div>
+        <div class="pt">
+          <div class="pt-name">巨骨穴<span class="pt-mer">大腸經</span></div>
+          <div class="pt-body"><div class="loc"><b>位置：</b>肩上部，鎖骨肩峰端與肩胛岡之間凹陷處</div><div class="eff">對肩部疼痛有奇效</div></div>
+        </div>
+      </div>
+      <div class="extra"><b>補充・肩三穴：</b>肩髃（大腸經）＋肩髎（三焦經）＋臑俞（小腸經）</div>
+    </div>
+
+    <!-- 2 腰背疼痛 -->
+    <div class="case">
+      <div class="case-head">
+        <div class="case-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 3v6l-3 4v8M15 3v6l3 4v8"/><path d="M9 11h6"/></svg></div>
+        <div><div class="case-title">腰背疼痛</div>
+          <div class="case-meridians"><span class="mtag tag-dan">膽經</span><span class="mtag tag-pang">膀胱經</span></div>
+        </div>
+      </div>
+      <div class="point-list">
+        <div class="pt">
+          <div class="pt-name">陽陵泉穴<span class="pt-mer">膽經</span></div>
+          <div class="pt-body"><div class="loc"><b>位置：</b>小腿外側，腓骨頭前下方凹陷處</div><div class="eff">十總穴「外傷陽陵泉」，八會穴之筋會</div></div>
+        </div>
+        <div class="pt">
+          <div class="pt-name">委中穴<span class="pt-mer">膀胱經</span></div>
+          <div class="pt-body"><div class="loc"><b>位置：</b>膝蓋後方正中央（膕橫紋中點）</div><div class="eff">十總穴「腰背委中求」——腰背痠痛的特效穴</div></div>
+        </div>
+        <div class="pt">
+          <div class="pt-name">腎俞穴<span class="pt-mer">膀胱經</span></div>
+          <div class="pt-body"><div class="loc"><b>位置：</b>腰部，第二腰椎棘突下，左右旁開 1.5 寸</div><div class="eff">局部取穴，鬆解腰部痠痛</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3 頭痛偏頭痛 -->
+    <div class="case">
+      <div class="case-head">
+        <div class="case-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="8"/><path d="M12 8v4l3 2"/></svg></div>
+        <div><div class="case-title">頭痛・偏頭痛</div>
+          <div class="case-meridians"><span class="mtag tag-dan">膽經</span><span class="mtag tag-pang">膀胱經</span><span class="mtag tag-sanjiao">三焦經</span></div>
+        </div>
+      </div>
+      <div class="point-list">
+        <div class="pt">
+          <div class="pt-name">風池穴<span class="pt-mer">膽經</span></div>
+          <div class="pt-body"><div class="loc"><b>位置：</b>後頸部枕骨下方，髮際線凹陷處</div><div class="eff">對頸椎僵硬、吹風受寒或壓力引起的後頭痛、偏頭痛效果極佳</div></div>
+        </div>
+        <div class="pt">
+          <div class="pt-name">天柱穴<span class="pt-mer">膀胱經</span></div>
+          <div class="pt-body"><div class="loc"><b>位置：</b>後頸部，後髮際正中旁開約 1.3 寸，斜方肌外緣凹陷中</div><div class="eff">調理頸椎與後腦勺疾患的要穴，改善落枕、頸椎僵硬、肩膀痠痛及後頭痛</div></div>
+        </div>
+        <div class="pt">
+          <div class="pt-name">角孫穴<span class="pt-mer">三焦經</span></div>
+          <div class="pt-body"><div class="loc"><b>位置：</b>頭部側面，耳朵尖端正對上方的髮際處</div><div class="eff">調理偏頭痛、頭額兩側抽痛或頭部脹熱感</div></div>
+        </div>
+      </div>
+      <div class="extra"><b>補充・特效穴：</b>太淵穴（肺經）　<b>另類療法：</b>耳尖放血術</div>
+    </div>
+
+    <!-- 4 腸胃不適 -->
+    <div class="case">
+      <div class="case-head">
+        <div class="case-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M8 3c0 3-3 4-3 8a7 7 0 0 0 14 0c0-4-3-5-3-8"/></svg></div>
+        <div><div class="case-title">腸胃不適</div>
+          <div class="case-meridians"><span class="mtag tag-wei">胃經</span><span class="mtag tag-ren">任脈</span></div>
+        </div>
+      </div>
+      <div class="point-list">
+        <div class="pt">
+          <div class="pt-name">足三里穴<span class="pt-mer">胃經</span></div>
+          <div class="pt-body"><div class="loc"><b>位置：</b>小腿外側，外膝眼下 3 寸，距脛骨前緣約一橫指</div><div class="eff">十總穴「肚腹三里留」——腸胃道問題專門家</div></div>
+        </div>
+        <div class="pt">
+          <div class="pt-name">天樞穴<span class="pt-mer">胃經</span></div>
+          <div class="pt-body"><div class="loc"><b>位置：</b>腹部，橫平臍中，前正中線旁開 2 寸</div><div class="eff">大腸的募穴，雙向調節腸道功能，腹瀉、便秘、腹痛都適用</div></div>
+        </div>
+        <div class="pt">
+          <div class="pt-name">中脘穴<span class="pt-mer">任脈</span></div>
+          <div class="pt-body"><div class="loc"><b>位置：</b>上腹部，前正中線上，肚臍上 4 寸</div><div class="eff">胃經的募穴，八會穴之腑會</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 5 高血壓 -->
+    <div class="case">
+      <div class="case-head">
+        <div class="case-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 12h4l2-6 4 12 2-6h6"/></svg></div>
+        <div><div class="case-title">高血壓</div>
+          <div class="case-meridians"><span class="mtag tag-gan">肝經</span><span class="mtag tag-xin">心經</span></div>
+        </div>
+      </div>
+      <div class="point-list">
+        <div class="pt">
+          <div class="pt-name">太衝穴<span class="pt-mer">肝經</span></div>
+          <div class="pt-body"><div class="loc"><b>位置：</b>足背側，第一、二趾骨結合部前方凹陷處</div><div class="eff">肝藏血，疏肝平肝</div></div>
+        </div>
+        <div class="pt">
+          <div class="pt-name">神門穴<span class="pt-mer">心經</span></div>
+          <div class="pt-body"><div class="loc"><b>位置：</b>手腕內側，腕掌橫紋尺側端，尺側屈腕肌腱橈側凹陷處</div><div class="eff">心主脈，安定心神</div></div>
+        </div>
+        <div class="pt">
+          <div class="pt-name">曲池穴<span class="pt-mer">大腸經</span></div>
+          <div class="pt-body"><div class="loc"><b>位置：</b>肘部，肘橫紋外側端與肱骨外上髁連線中點</div><div class="eff">表裡經為肺經，有調氣血之效</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 6 糖尿病 -->
+    <div class="case">
+      <div class="case-head">
+        <div class="case-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 3c3 4 6 7 6 11a6 6 0 0 1-12 0c0-4 3-7 6-11z"/></svg></div>
+        <div><div class="case-title">糖尿病</div>
+          <div class="case-meridians"><span class="mtag tag-pi">脾經</span><span class="mtag tag-shen">腎經</span></div>
+        </div>
+      </div>
+      <div class="point-list">
+        <div class="pt">
+          <div class="pt-name">三陰交穴<span class="pt-mer">脾經</span></div>
+          <div class="pt-body"><div class="loc"><b>位置：</b>小腿內側，足內踝尖上 3 寸，脛骨內側緣後方</div><div class="eff">足部三條陰經交會處，健脾益腎、滋陰利濕，調節內分泌與代謝</div></div>
+        </div>
+        <div class="pt">
+          <div class="pt-name">太谿穴<span class="pt-mer">腎經</span></div>
+          <div class="pt-body"><div class="loc"><b>位置：</b>足內側，內踝尖與跟腱之間凹陷處</div><div class="eff">腎經原穴，滋陰益腎</div></div>
+        </div>
+        <div class="pt">
+          <div class="pt-name">腎俞穴<span class="pt-mer">膀胱經</span></div>
+          <div class="pt-body"><div class="loc"><b>位置：</b>腰部，第二腰椎棘突下，左右旁開 1.5 寸</div><div class="eff">滋陰壯陽、補腎固精，改善腰膝痠軟、小便頻繁</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 7 腦中風後遺症 -->
+    <div class="case">
+      <div class="case-head">
+        <div class="case-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M8 13c1 2 2.5 2 4 2s3-1 4-3"/><path d="M9 9h.01M15 9h.01"/></svg></div>
+        <div><div class="case-title">腦中風後遺症</div>
+          <div class="case-meridians"><span class="mtag tag-du">督脈</span><span class="mtag tag-pang">膀胱經</span></div>
+        </div>
+      </div>
+      <div class="point-list">
+        <div class="pt">
+          <div class="pt-name">百會穴<span class="pt-mer">督脈</span></div>
+          <div class="pt-body"><div class="loc"><b>位置：</b>頭頂正中線與兩耳尖連線的交點處</div><div class="eff">改善頭部循環與精神狀態</div></div>
+        </div>
+        <div class="pt">
+          <div class="pt-name">曲池穴<span class="pt-mer">大腸經</span></div>
+          <div class="pt-body"><div class="loc"><b>位置：</b>肘部，肘橫紋外側端與肱骨外上髁連線中點</div><div class="eff">疏通上肢經絡，用於上肢癱瘓、屈伸不利的康復調理</div></div>
+        </div>
+        <div class="pt">
+          <div class="pt-name">足三里穴<span class="pt-mer">胃經</span></div>
+          <div class="pt-body"><div class="loc"><b>位置：</b>小腿外側，外膝眼下 3 寸，距脛骨前緣約一橫指</div><div class="eff">健脾益氣，有助下肢氣血運行與整體體力恢復</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 8 失眠 -->
+    <div class="case">
+      <div class="case-head">
+        <div class="case-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/></svg></div>
+        <div><div class="case-title">失眠</div>
+          <div class="case-meridians"><span class="mtag tag-xin">心經</span><span class="mtag tag-gan">肝經</span></div>
+        </div>
+      </div>
+      <div class="point-list">
+        <div class="pt">
+          <div class="pt-name">神門穴<span class="pt-mer">心經</span></div>
+          <div class="pt-body"><div class="loc"><b>位置：</b>腕橫紋上，小指側端肌腱凹陷處</div><div class="eff">心主神明，心經氣血直接影響精神與睡眠</div></div>
+        </div>
+        <div class="pt">
+          <div class="pt-name">內關穴<span class="pt-mer">心包經</span></div>
+          <div class="pt-body"><div class="loc"><b>位置：</b>腕橫紋上 2 寸（約三橫指寬），兩條明顯筋腱之間</div><div class="eff">調節情緒與自律神經</div></div>
+        </div>
+        <div class="pt">
+          <div class="pt-name">太衝穴<span class="pt-mer">肝經</span></div>
+          <div class="pt-body"><div class="loc"><b>位置：</b>足背側，第一、二足趾骨結合部前方凹陷處</div><div class="eff">疏肝理氣、平息怒火</div></div>
+        </div>
+      </div>
+      <div class="extra"><b>經外奇穴・安眠穴：</b>位於耳垂後方凹陷處（風池穴與翳風穴連線中點）。鎮靜安神、改善睡眠，按壓可放鬆周圍緊張肌肉，幫助大腦進入休息狀態。</div>
+    </div>
+  </section>
+
+  <section id="homework">
+    <div class="section-head"><span class="section-num">05</span><h2 class="section-title">回家練習題</h2></div>
+    <p class="section-lede">用這堂課學到的三點式，練習幫家人照護：</p>
+    <div class="homework">
+      <div class="hw-item"><span class="hw-num">1</span><span class="hw-text">幫老公處理肩頸痠痛，用 <b>小腸經、膽經、膀胱經</b></span></div>
+      <div class="hw-item"><span class="hw-num">2</span><span class="hw-text">幫小孩處理頭痛，用 <b>膽經、膀胱經</b></span></div>
+      <div class="hw-item"><span class="hw-num">3</span><span class="hw-text">幫長輩調理三高慢性病，用 <b>肝經、腎經、膽經</b></span></div>
+      <div class="hw-item"><span class="hw-num">4</span><span class="hw-text">幫自己放鬆安眠，用 <b>心經、肝經</b></span></div>
+    </div>
+  </section>
+
+  <section id="schedule">
+    <div class="section-head"><span class="section-num">06</span><h2 class="section-title">課程資訊</h2></div>
+    <div class="card">
+      <table class="schedule">
+        <thead><tr><th>堂次</th><th>主題</th></tr></thead>
+        <tbody>
+          <tr><td class="lesson">第一堂</td><td>12 經絡與十大手法與十總穴</td></tr>
+          <tr class="current"><td class="lesson">第二堂</td><td>常見病痛與經絡照護三點式</td></tr>
+          <tr><td class="lesson">第三堂</td><td>刮痧與拔罐</td></tr>
+          <tr><td class="lesson">第四堂</td><td>牛角撥經與頭部紓壓</td></tr>
+        </tbody>
+      </table>
+      <div class="location-row">📍 上課地點：<b>台中市南區</b>（報名後提供詳細地址）</div>
+      <div class="time-split">
+        <div class="time-chip"><b>30 分</b>上課</div>
+        <div class="time-chip"><b>20 分</b>實作</div>
+        <div class="time-chip"><b>30 分</b>上課</div>
+        <div class="time-chip"><b>40 分</b>個案</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="closing">
+    <p class="motto">正念趨動<span class="x">×</span>行為趨動</p>
+    <div class="next-badge">預告下堂課　<b>刮痧與拔罐</b></div>
+  </div>
+</div>
+
+<footer>經絡照護共好學堂・第二堂講義　台灣經絡照護共好協會</footer>
+
+<button class="print-btn" onclick="window.print()">🖨️ 列印講義</button>

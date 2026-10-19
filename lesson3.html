@@ -1,0 +1,643 @@
+<title>刮痧拔罐照護講義</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@500;700;900&family=Noto+Sans+TC:wght@400;500;600;700&display=swap');
+
+  :root{
+    --paper:#F0F1E7;
+    --paper-raised:#FFFFFF;
+    --paper-sunken:#E6E7D9;
+    --ink:#262018;
+    --ink-soft:#6D6657;
+    --ink-faint:#938C78;
+    --line:#DAD8C2;
+    --clay:#A8472E;
+    --clay-soft:#F3E2DB;
+    --amber:#9C7A2E;
+    --amber-soft:#F0E8D0;
+    --jade:#3F6B55;
+    --jade-soft:#DEE8DF;
+    --indigo:#3E5578;
+    --indigo-soft:#E1E6EE;
+    --shadow: rgba(38,32,24,0.10);
+    color-scheme: light;
+    font-size:19px;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --paper:#1A1C16; --paper-raised:#232519; --paper-sunken:#15160F;
+      --ink:#ECE7D9; --ink-soft:#A8A08A; --ink-faint:#7C7560; --line:#3A3C2E;
+      --clay:#DD8766; --clay-soft:#3B271D; --amber:#D3AF62; --amber-soft:#39311E;
+      --jade:#86BB9C; --jade-soft:#1F2E26; --indigo:#95ABD0; --indigo-soft:#222B3B;
+      --shadow: rgba(0,0,0,0.35);
+    }
+  }
+  :root[data-theme="dark"]{
+    --paper:#1A1C16; --paper-raised:#232519; --paper-sunken:#15160F;
+    --ink:#ECE7D9; --ink-soft:#A8A08A; --ink-faint:#7C7560; --line:#3A3C2E;
+    --clay:#DD8766; --clay-soft:#3B271D; --amber:#D3AF62; --amber-soft:#39311E;
+    --jade:#86BB9C; --jade-soft:#1F2E26; --indigo:#95ABD0; --indigo-soft:#222B3B;
+    --shadow: rgba(0,0,0,0.35);
+  }
+
+  *{box-sizing:border-box;}
+  body{
+    margin:0; background:var(--paper); color:var(--ink);
+    font-family:"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif;
+    line-height:1.8; font-size:1.05rem;
+    -webkit-font-smoothing:antialiased;
+  }
+  ::selection{ background:var(--clay-soft); }
+  h1,h2,h3{ font-family:"Noto Serif TC","Songti TC",serif; text-wrap:balance; margin:0; }
+  p{ margin:0; }
+  a{ color:inherit; }
+
+  .wrap{ max-width:46rem; margin:0 auto; padding:0 1.5rem 6rem; }
+
+  header.hero{
+    padding:3.5rem 1.5rem 2rem; text-align:center;
+    background:radial-gradient(60% 80% at 50% 0%, var(--paper-sunken), transparent 70%);
+  }
+  .eyebrow{
+    font-family:"Noto Sans TC",sans-serif; font-weight:600; font-size:.78rem;
+    letter-spacing:.14em; color:var(--clay); text-transform:uppercase;
+    display:inline-flex; align-items:center; gap:.5rem; margin-bottom:1rem;
+  }
+  .eyebrow::before,.eyebrow::after{ content:""; width:1.4rem; height:1px; background:var(--clay); opacity:.5; }
+  h1.title{ font-size:clamp(2.1rem,6vw,3.1rem); font-weight:900; line-height:1.25; }
+  h1.title em{ font-style:normal; color:var(--clay); }
+  .subtitle{ margin-top:.9rem; color:var(--ink-soft); font-size:1.05rem; }
+  .org{ margin-top:.4rem; color:var(--ink-faint); font-size:.85rem; letter-spacing:.03em;}
+  .teacher-name{ margin-top:.3rem; font-size:.85rem; color:var(--ink-faint); letter-spacing:.03em; }
+  .teacher-name b{ color:var(--clay); font-weight:700; }
+
+  /* ---------- course stepper ---------- */
+  .stepper{
+    display:flex; align-items:flex-start; justify-content:center; gap:0; padding:1.6rem 1.2rem 0; flex-wrap:wrap;
+  }
+  .step{ display:flex; flex-direction:column; align-items:center; gap:.5rem; width:7.4rem; position:relative; text-decoration:none; color:inherit; }
+  .step .circle{
+    width:2.3rem; height:2.3rem; border-radius:50%; display:flex; align-items:center; justify-content:center;
+    font-family:"Noto Serif TC",serif; font-weight:700; font-size:.95rem; border:2px solid var(--line);
+    background:var(--paper-raised); color:var(--ink-faint); flex:none;
+  }
+  .step .lbl{ font-size:.76rem; text-align:center; color:var(--ink-faint); line-height:1.4; }
+  .step.done .circle{ background:var(--jade-soft); border-color:var(--jade); color:var(--jade); }
+  .step.done .lbl{ color:var(--jade); font-weight:600; }
+  .step.current .circle{ background:var(--clay); border-color:var(--clay); color:#fff; }
+  .step.current .lbl{ color:var(--clay); font-weight:700; }
+  .step .connector{
+    position:absolute; top:1.1rem; right:50%; width:100%; height:2px; background:var(--line); z-index:-1;
+  }
+  .step:first-child .connector{ display:none; }
+  .step.done .connector{ background:var(--jade); opacity:.5; }
+  .step:hover .lbl{ text-decoration:underline; }
+  @media (max-width:30rem){
+    .stepper{ flex-wrap:nowrap; justify-content:flex-start; overflow-x:auto; padding-left:1.5rem; padding-right:1.5rem; -webkit-overflow-scrolling:touch; }
+    .step{ width:6rem; flex:none; }
+    .step .lbl{ font-size:.68rem; }
+  }
+
+  nav.toc{
+    position:sticky; top:0; z-index:10; background:color-mix(in srgb, var(--paper) 88%, transparent);
+    backdrop-filter:blur(6px); border-bottom:1px solid var(--line); margin-top:1.6rem;
+  }
+  nav.toc .row{
+    max-width:46rem; margin:0 auto; padding:.7rem 1.5rem; display:flex; gap:1.1rem;
+    overflow-x:auto; scrollbar-width:none;
+  }
+  nav.toc .row::-webkit-scrollbar{ display:none; }
+  nav.toc a{
+    white-space:nowrap; font-size:.82rem; color:var(--ink-soft); text-decoration:none;
+    padding:.25rem 0; border-bottom:2px solid transparent;
+  }
+  nav.toc a:hover{ color:var(--clay); border-color:var(--clay); }
+
+  section{ padding:3rem 0; border-top:1px solid var(--line); }
+  section:first-of-type{ border-top:none; }
+  .section-head{ display:flex; align-items:baseline; gap:.85rem; margin-bottom:1.5rem; }
+  .section-num{ font-family:"Noto Serif TC",serif; font-weight:700; font-size:1rem; color:var(--clay); min-width:1.6rem; }
+  h2.section-title{ font-size:clamp(1.3rem,3.4vw,1.65rem); font-weight:700; }
+  .section-lede{ color:var(--ink-soft); margin:.6rem 0 1.4rem; font-size:1.03rem; }
+
+  .card{
+    background:var(--paper-raised); border:1px solid var(--line); border-radius:14px;
+    padding:1.2rem 1.3rem; box-shadow:0 1px 2px var(--shadow);
+  }
+
+  /* ---------- definition cards (原合絡郄) ---------- */
+  .def-grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:.9rem; margin-bottom:1.2rem; }
+  @media (max-width:36rem){ .def-grid{ grid-template-columns:1fr; } }
+  .def-card{ border-radius:14px; padding:1rem 1.1rem; }
+  .def-card .dtitle{ font-weight:700; font-size:1.02rem; display:flex; align-items:center; gap:.5rem; margin-bottom:.4rem; }
+  .def-card .dtag{ width:.8rem; height:.8rem; border-radius:50%; flex:none; }
+  .def-card .ddesc{ font-size:.92rem; color:var(--ink-soft); }
+  .def-card.d-yuan{ background:var(--amber-soft); } .def-card.d-yuan .dtag{ background:var(--amber); }
+  .def-card.d-he{ background:var(--clay-soft); } .def-card.d-he .dtag{ background:var(--clay); }
+  .def-card.d-luo{ background:var(--jade-soft); } .def-card.d-luo .dtag{ background:var(--jade); }
+  .def-card.d-xi{ background:var(--indigo-soft); } .def-card.d-xi .dtag{ background:var(--indigo); }
+
+  .rule-row{ display:flex; gap:.8rem; flex-wrap:wrap; }
+  .rule-chip{
+    flex:1 1 14rem; border-radius:12px; padding:.8rem 1rem; background:var(--paper-sunken); font-size:.92rem;
+  }
+  .rule-chip b{ display:block; font-family:"Noto Serif TC",serif; font-size:1rem; margin-bottom:.2rem; }
+
+  /* ---------- meridian point-type reference ---------- */
+  .meridian-grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:1rem; }
+  @media (max-width:36rem){ .meridian-grid{ grid-template-columns:1fr; } }
+  .mgroup{ border-radius:14px; padding:1.1rem 1.2rem; border:1px solid var(--line); background:var(--paper-raised); }
+  .mgroup-head{ display:flex; align-items:center; gap:.55rem; margin-bottom:.2rem; }
+  .mdot{ width:.7rem; height:.7rem; border-radius:50%; flex:none; }
+  .mgroup-title{ font-weight:700; font-size:1.02rem; }
+  .mgroup-dir{ font-size:.82rem; color:var(--ink-faint); margin-bottom:.8rem; }
+  .meridian-block{ padding:.8rem 0; border-top:1px dashed var(--line); }
+  .meridian-block:first-of-type{ border-top:none; padding-top:0; }
+  .meridian-name{ font-weight:700; font-size:.96rem; margin-bottom:.5rem; }
+  .ptype-grid{ display:grid; grid-template-columns:1fr 1fr; gap:.5rem; }
+  @media (max-width:26rem){ .ptype-grid{ grid-template-columns:1fr; } }
+  .ptype-chip{ border-radius:10px; padding:.5rem .6rem; font-size:.78rem; }
+  .ptype-chip .plabel{ font-weight:700; font-size:.72rem; display:inline-block; padding:.05rem .4rem; border-radius:6px; margin-bottom:.25rem; }
+  .ptype-chip .pname{ font-weight:700; font-size:.88rem; }
+  .ptype-chip .ploc{ color:var(--ink-soft); font-size:.74rem; margin-top:.15rem; line-height:1.45; }
+  .pt-yuan{ background:var(--amber-soft); } .pt-yuan .plabel{ background:var(--amber); color:#fff; }
+  .pt-he{ background:var(--clay-soft); } .pt-he .plabel{ background:var(--clay); color:#fff; }
+  .pt-luo{ background:var(--jade-soft); } .pt-luo .plabel{ background:var(--jade); color:#fff; }
+  .pt-xi{ background:var(--indigo-soft); } .pt-xi .plabel{ background:var(--indigo); color:#fff; }
+
+  .g-hy .mdot{ background:var(--amber); }
+  .g-hyang .mdot{ background:var(--clay); }
+  .g-fy .mdot{ background:var(--jade); }
+  .g-fyang .mdot{ background:var(--indigo); }
+
+  /* ---------- quote ---------- */
+  .quote{
+    text-align:center; font-family:"Noto Serif TC",serif; font-size:1.15rem; font-weight:700;
+    line-height:1.9; color:var(--ink); padding:1.4rem 1.2rem; background:var(--paper-sunken);
+    border-radius:16px; margin:1.2rem 0;
+  }
+  .quote .who{ display:block; font-family:"Noto Sans TC",sans-serif; font-weight:500; font-size:.78rem; color:var(--ink-faint); margin-top:.6rem; }
+
+  /* ---------- mechanism list ---------- */
+  .mech-list{ display:flex; flex-direction:column; gap:.7rem; }
+  .mech-item{ display:flex; gap:.8rem; background:var(--paper-raised); border:1px solid var(--line); border-radius:12px; padding:.85rem 1rem; }
+  .mech-num{
+    font-family:"Noto Serif TC",serif; font-weight:700; color:#fff; background:var(--clay);
+    width:1.7rem; height:1.7rem; border-radius:50%; flex:none; display:flex; align-items:center; justify-content:center; font-size:.85rem;
+  }
+  .mech-text b{ display:block; font-size:.96rem; margin-bottom:.15rem; }
+  .mech-text span{ font-size:.88rem; color:var(--ink-soft); }
+
+  /* ---------- caution blocks ---------- */
+  .caution{
+    border-radius:14px; padding:1.1rem 1.2rem; margin-bottom:1rem; background:var(--paper-raised); border:1px solid var(--line);
+  }
+  .caution .ctitle{ font-weight:700; font-size:1rem; margin-bottom:.6rem; display:flex; align-items:center; gap:.5rem; }
+  .caution .ctitle .num{ width:1.6rem; height:1.6rem; border-radius:50%; background:var(--clay-soft); color:var(--clay); display:flex; align-items:center; justify-content:center; font-size:.8rem; font-weight:700; font-family:"Noto Serif TC",serif; flex:none; }
+  .caution ul{ margin:0; padding-left:1.2rem; display:flex; flex-direction:column; gap:.5rem; }
+  .caution li{ font-size:.92rem; color:var(--ink-soft); }
+  .caution li b{ color:var(--ink); font-weight:700; }
+
+  /* ---------- body-region cards (reuse case style) ---------- */
+  .region{
+    border:1px solid var(--line); border-radius:16px; background:var(--paper-raised);
+    padding:1.2rem 1.3rem; margin-bottom:1rem; box-shadow:0 1px 2px var(--shadow);
+  }
+  .region-head{ display:flex; align-items:center; gap:.8rem; margin-bottom:.6rem; }
+  .region-icon{
+    width:2.4rem; height:2.4rem; border-radius:10px; flex:none; display:flex; align-items:center; justify-content:center;
+    background:var(--clay-soft); color:var(--clay);
+  }
+  .region-icon svg{ width:1.4rem; height:1.4rem; }
+  .region-title{ font-size:1.05rem; font-weight:700; }
+  .region-tags{ display:flex; gap:.4rem; margin-top:.25rem; flex-wrap:wrap; }
+  .rtag{ font-size:.72rem; padding:.15rem .55rem; border-radius:99px; font-weight:600; background:var(--jade-soft); color:var(--jade); }
+  .region-muscle{ font-size:.84rem; color:var(--ink-faint); margin:.6rem 0 .3rem; }
+  .region-muscle b{ color:var(--ink-soft); font-weight:600; }
+  .region-use{ font-size:.92rem; color:var(--ink-soft); }
+  .region-use::before{ content:"💡 "; }
+
+  /* ---------- homework / closing (shared with other handouts) ---------- */
+  .homework{ display:flex; flex-direction:column; gap:.7rem; }
+  .hw-item{ display:flex; gap:.9rem; align-items:flex-start; background:var(--paper-raised); border:1px solid var(--line); border-radius:12px; padding:.85rem 1rem; }
+  .hw-num{ font-family:"Noto Serif TC",serif; font-weight:700; color:#fff; background:var(--jade); width:1.7rem; height:1.7rem; border-radius:50%; flex:none; display:flex; align-items:center; justify-content:center; font-size:.85rem; }
+  .hw-text{ font-size:1.02rem; }
+  .hw-text b{ color:var(--jade); font-weight:700; }
+
+  .biblio{ display:flex; flex-direction:column; gap:.5rem; }
+  .biblio li{ font-size:.9rem; color:var(--ink-soft); list-style:none; padding-left:1.3rem; position:relative; }
+  .biblio li::before{ content:"📖"; position:absolute; left:0; }
+  .biblio li b{ color:var(--ink); font-weight:700; }
+
+  .closing{ text-align:center; padding:3rem 1.5rem 1rem; }
+  .closing .motto{ font-family:"Noto Serif TC",serif; font-size:1.4rem; font-weight:700; }
+  .closing .motto .x{ color:var(--clay); margin:0 .5rem; font-weight:400;}
+  .next-badge{
+    display:inline-flex; align-items:center; gap:.5rem; margin-top:1.3rem; padding:.55rem 1.1rem;
+    border-radius:99px; background:var(--paper-raised); border:1px solid var(--line); font-size:.85rem; color:var(--ink-soft);
+  }
+  .next-badge b{ color:var(--clay); }
+  .location-row{
+    padding:.8rem 1.1rem; border-radius:10px; background:var(--jade-soft); color:var(--jade);
+    font-size:.94rem; font-weight:600;
+  }
+  .location-row b{ font-family:"Noto Serif TC",serif; }
+  footer{ text-align:center; padding:2rem 1.5rem 3rem; font-size:.76rem; color:var(--ink-faint); }
+
+  .print-btn{
+    position:fixed; right:1.2rem; bottom:1.2rem; z-index:20;
+    background:var(--clay); color:#fff; border:none; border-radius:99px;
+    padding:.75rem 1.1rem; font-size:.85rem; font-family:"Noto Sans TC",sans-serif; font-weight:600;
+    box-shadow:0 4px 14px var(--shadow); cursor:pointer; display:flex; align-items:center; gap:.4rem;
+  }
+  .print-btn:hover{ filter:brightness(1.08); }
+
+  @media print{
+    nav.toc,.print-btn{ display:none !important; }
+    body{ background:#fff; }
+    section{ break-inside:avoid; }
+    .card,.mgroup,.region,.hw-item,.caution,.def-card{ break-inside:avoid; }
+    a{ text-decoration:none; }
+  }
+</style>
+
+<header class="hero">
+  <div class="eyebrow">經絡照護共好學堂・第三堂</div>
+  <h1 class="title">刮痧<em>與</em>拔罐</h1>
+  <p class="subtitle">從原穴、合穴、絡穴、郄穴，到刮痧與拔罐的原理、禁忌與對症部位</p>
+  <p class="org">台灣經絡照護共好協會</p>
+  <p class="teacher-name">授課老師・<b>菊老師</b>　Maggie 老師</p>
+</header>
+
+<div class="stepper">
+  <a class="step done" href="index.html">
+    <span class="connector"></span><span class="circle">✓</span><span class="lbl">第一堂<br>十二經絡與手法</span>
+  </a>
+  <a class="step done" href="lesson2.html">
+    <span class="connector"></span><span class="circle">✓</span><span class="lbl">第二堂<br>經絡照護三點式</span>
+  </a>
+  <div class="step current">
+    <span class="connector"></span><span class="circle">3</span><span class="lbl">第三堂<br>刮痧與拔罐</span>
+  </div>
+  <div class="step">
+    <span class="connector"></span><span class="circle">4</span><span class="lbl">第四堂<br>牛角撥經與頭部紓壓</span>
+  </div>
+</div>
+
+<nav class="toc">
+  <div class="row">
+    <a href="#points4">特定穴複習</a>
+    <a href="#pointref">十二經絡定位總表</a>
+    <a href="#guasha">刮痧原理</a>
+    <a href="#guasha-safety">刮痧注意事項</a>
+    <a href="#guasha-map">刮痧部位</a>
+    <a href="#cupping">拔罐原理</a>
+    <a href="#cupping-map">拔罐部位</a>
+    <a href="#homework">回家練習題</a>
+  </div>
+</nav>
+
+<div class="wrap">
+
+  <section id="points4">
+    <div class="section-head"><span class="section-num">01</span><h2 class="section-title">經絡特定穴複習：原・合・絡・郄</h2></div>
+    <p class="section-lede">每條經絡上都有四個關鍵穴位，掌握它們就能更精準地選穴：</p>
+    <div class="def-grid">
+      <div class="card def-card d-yuan"><div class="dtitle"><span class="dtag"></span>原穴</div><div class="ddesc">原氣（源自腎間動氣、生命原動力）在經絡中運行、停留並匯聚的部位。</div></div>
+      <div class="card def-card d-he"><div class="dtitle"><span class="dtag"></span>合穴</div><div class="ddesc">經氣由細變粗、由淺入深，如同百川匯海一般流注、深入臟腑內部的部位。</div></div>
+      <div class="card def-card d-luo"><div class="dtitle"><span class="dtag"></span>絡穴</div><div class="ddesc">經脈由主幹分出「別絡」的部位，主要功能在於溝通表裡兩經。</div></div>
+      <div class="card def-card d-xi"><div class="dtitle"><span class="dtag"></span>郄穴</div><div class="ddesc">「郄」意指空隙、縫隙，是經脈之氣深聚、深藏於肌肉骨骼縫隙中的部位。</div></div>
+    </div>
+    <div class="rule-row">
+      <div class="rule-chip"><b>急性病</b>原穴 ＋ 郄穴</div>
+      <div class="rule-chip"><b>慢性病</b>原穴 ＋ 絡穴</div>
+    </div>
+  </section>
+
+  <section id="pointref">
+    <div class="section-head"><span class="section-num">02</span><h2 class="section-title">十二經絡特定穴定位總表</h2></div>
+    <p class="section-lede">延續第一堂的四大經絡群組，這裡列出每條經絡的原、合、絡、郄四穴位置，方便上課與回家練習時查找。</p>
+
+    <div class="meridian-grid">
+      <div class="mgroup g-hy">
+        <div class="mgroup-head"><span class="mdot"></span><span class="mgroup-title">手三陰經</span></div>
+        <div class="mgroup-dir">由胸走手</div>
+
+        <div class="meridian-block">
+          <div class="meridian-name">肺經</div>
+          <div class="ptype-grid">
+            <div class="ptype-chip pt-yuan"><span class="plabel">原穴</span><div class="pname">太淵</div><div class="ploc">腕橫紋橈側端，橈動脈搏動處</div></div>
+            <div class="ptype-chip pt-he"><span class="plabel">合穴</span><div class="pname">尺澤</div><div class="ploc">肘橫紋中，肱二頭肌腱橈側凹陷處</div></div>
+            <div class="ptype-chip pt-luo"><span class="plabel">絡穴</span><div class="pname">列缺</div><div class="ploc">腕橫紋上 1.5 寸，橈骨莖突上方</div></div>
+            <div class="ptype-chip pt-xi"><span class="plabel">郄穴</span><div class="pname">孔最</div><div class="ploc">腕橫紋上 7 寸，尺澤與太淵連線上</div></div>
+          </div>
+        </div>
+        <div class="meridian-block">
+          <div class="meridian-name">心包經</div>
+          <div class="ptype-grid">
+            <div class="ptype-chip pt-yuan"><span class="plabel">原穴</span><div class="pname">大陵</div><div class="ploc">腕橫紋中點，掌長肌腱與橈側腕屈肌腱之間</div></div>
+            <div class="ptype-chip pt-he"><span class="plabel">合穴</span><div class="pname">曲澤</div><div class="ploc">肘橫紋中，肱二頭肌腱尺側凹陷處</div></div>
+            <div class="ptype-chip pt-luo"><span class="plabel">絡穴</span><div class="pname">內關</div><div class="ploc">腕橫紋上 2 寸，兩條肌腱之間</div></div>
+            <div class="ptype-chip pt-xi"><span class="plabel">郄穴</span><div class="pname">郄門</div><div class="ploc">腕橫紋上 5 寸，兩條肌腱之間</div></div>
+          </div>
+        </div>
+        <div class="meridian-block">
+          <div class="meridian-name">心經</div>
+          <div class="ptype-grid">
+            <div class="ptype-chip pt-yuan"><span class="plabel">原穴</span><div class="pname">神門</div><div class="ploc">腕橫紋尺側端，尺側腕屈肌腱橈側凹陷處</div></div>
+            <div class="ptype-chip pt-he"><span class="plabel">合穴</span><div class="pname">少海</div><div class="ploc">肘橫紋內側端與肱骨內上髁連線中點</div></div>
+            <div class="ptype-chip pt-luo"><span class="plabel">絡穴</span><div class="pname">通里</div><div class="ploc">腕橫紋上 1 寸，尺側腕屈肌腱橈側</div></div>
+            <div class="ptype-chip pt-xi"><span class="plabel">郄穴</span><div class="pname">陰郄</div><div class="ploc">腕橫紋上 0.5 寸，尺側腕屈肌腱橈側</div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="mgroup g-hyang">
+        <div class="mgroup-head"><span class="mdot"></span><span class="mgroup-title">手三陽經</span></div>
+        <div class="mgroup-dir">由手走頭</div>
+
+        <div class="meridian-block">
+          <div class="meridian-name">大腸經</div>
+          <div class="ptype-grid">
+            <div class="ptype-chip pt-yuan"><span class="plabel">原穴</span><div class="pname">合谷</div><div class="ploc">第一、二掌骨之間，第二掌骨橈側中點</div></div>
+            <div class="ptype-chip pt-he"><span class="plabel">合穴</span><div class="pname">曲池</div><div class="ploc">肘橫紋外側端，尺澤與肱骨外上髁連線中點</div></div>
+            <div class="ptype-chip pt-luo"><span class="plabel">絡穴</span><div class="pname">偏歷</div><div class="ploc">腕背橫紋上 3 寸，陽溪與曲池連線上</div></div>
+            <div class="ptype-chip pt-xi"><span class="plabel">郄穴</span><div class="pname">溫溜</div><div class="ploc">腕背橫紋上 5 寸，陽溪與曲池連線上</div></div>
+          </div>
+        </div>
+        <div class="meridian-block">
+          <div class="meridian-name">三焦經</div>
+          <div class="ptype-grid">
+            <div class="ptype-chip pt-yuan"><span class="plabel">原穴</span><div class="pname">陽池</div><div class="ploc">腕背橫紋中，指總伸肌腱尺側凹陷處</div></div>
+            <div class="ptype-chip pt-he"><span class="plabel">合穴</span><div class="pname">天井</div><div class="ploc">曲肘時，肘髁後方 1 寸凹陷處</div></div>
+            <div class="ptype-chip pt-luo"><span class="plabel">絡穴</span><div class="pname">外關</div><div class="ploc">腕背橫紋上 2 寸，尺骨與橈骨之間</div></div>
+            <div class="ptype-chip pt-xi"><span class="plabel">郄穴</span><div class="pname">會宗</div><div class="ploc">腕背橫紋上 3 寸，尺骨橈側緣</div></div>
+          </div>
+        </div>
+        <div class="meridian-block">
+          <div class="meridian-name">小腸經</div>
+          <div class="ptype-grid">
+            <div class="ptype-chip pt-yuan"><span class="plabel">原穴</span><div class="pname">腕骨</div><div class="ploc">手掌尺側，第五掌骨底與三角骨間凹陷處</div></div>
+            <div class="ptype-chip pt-he"><span class="plabel">合穴</span><div class="pname">小海</div><div class="ploc">肘內側，尺骨鷹嘴與肱骨內上髁間凹陷處</div></div>
+            <div class="ptype-chip pt-luo"><span class="plabel">絡穴</span><div class="pname">支正</div><div class="ploc">腕背橫紋上 5 寸，小海與腕骨連線上</div></div>
+            <div class="ptype-chip pt-xi"><span class="plabel">郄穴</span><div class="pname">養老</div><div class="ploc">腕背橫紋上 1 寸，尺骨莖突橈側凹陷處</div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="mgroup g-fy">
+        <div class="mgroup-head"><span class="mdot"></span><span class="mgroup-title">足三陰經</span></div>
+        <div class="mgroup-dir">由足走胸腹</div>
+
+        <div class="meridian-block">
+          <div class="meridian-name">脾經</div>
+          <div class="ptype-grid">
+            <div class="ptype-chip pt-yuan"><span class="plabel">原穴</span><div class="pname">太白</div><div class="ploc">足內側緣，第一跖骨小頭後下方赤白肉際</div></div>
+            <div class="ptype-chip pt-he"><span class="plabel">合穴</span><div class="pname">陰陵泉</div><div class="ploc">小腿內側，脛骨內側髁下緣凹陷處</div></div>
+            <div class="ptype-chip pt-luo"><span class="plabel">絡穴</span><div class="pname">公孫</div><div class="ploc">足內側緣，第一跖骨底前下方赤白肉際</div></div>
+            <div class="ptype-chip pt-xi"><span class="plabel">郄穴</span><div class="pname">地機</div><div class="ploc">陰陵泉直下 3 寸，脛骨內側緣後方</div></div>
+          </div>
+        </div>
+        <div class="meridian-block">
+          <div class="meridian-name">肝經</div>
+          <div class="ptype-grid">
+            <div class="ptype-chip pt-yuan"><span class="plabel">原穴</span><div class="pname">太衝</div><div class="ploc">足背側，第一、二跖骨結合部前方凹陷處</div></div>
+            <div class="ptype-chip pt-he"><span class="plabel">合穴</span><div class="pname">曲泉</div><div class="ploc">膝內側橫紋端，兩條肌腱之間凹陷處</div></div>
+            <div class="ptype-chip pt-luo"><span class="plabel">絡穴</span><div class="pname">蠡溝</div><div class="ploc">內踝尖上 5 寸，脛骨內側面中央</div></div>
+            <div class="ptype-chip pt-xi"><span class="plabel">郄穴</span><div class="pname">中都</div><div class="ploc">內踝尖上 7 寸，脛骨內側面中央</div></div>
+          </div>
+        </div>
+        <div class="meridian-block">
+          <div class="meridian-name">腎經</div>
+          <div class="ptype-grid">
+            <div class="ptype-chip pt-yuan"><span class="plabel">原穴</span><div class="pname">太谿</div><div class="ploc">足內側，內踝後方與跟腱之間凹陷處</div></div>
+            <div class="ptype-chip pt-he"><span class="plabel">合穴</span><div class="pname">陰谷</div><div class="ploc">膕窩內側，兩條肌腱之間</div></div>
+            <div class="ptype-chip pt-luo"><span class="plabel">絡穴</span><div class="pname">大鍾</div><div class="ploc">內踝後下方，跟腱內側前緣凹陷處</div></div>
+            <div class="ptype-chip pt-xi"><span class="plabel">郄穴</span><div class="pname">水泉</div><div class="ploc">太谿直下 1 寸，跟骨結節內側凹陷處</div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="mgroup g-fyang">
+        <div class="mgroup-head"><span class="mdot"></span><span class="mgroup-title">足三陽經</span></div>
+        <div class="mgroup-dir">由頭走足</div>
+
+        <div class="meridian-block">
+          <div class="meridian-name">胃經</div>
+          <div class="ptype-grid">
+            <div class="ptype-chip pt-yuan"><span class="plabel">原穴</span><div class="pname">衝陽</div><div class="ploc">足背最高處，足背動脈搏動處</div></div>
+            <div class="ptype-chip pt-he"><span class="plabel">合穴</span><div class="pname">足三里</div><div class="ploc">外膝眼下 3 寸，脛骨前肌外側</div></div>
+            <div class="ptype-chip pt-luo"><span class="plabel">絡穴</span><div class="pname">豐隆</div><div class="ploc">外踝尖上 8 寸，脛骨前肌外緣</div></div>
+            <div class="ptype-chip pt-xi"><span class="plabel">郄穴</span><div class="pname">梁丘</div><div class="ploc">髕底外上緣上 2 寸</div></div>
+          </div>
+        </div>
+        <div class="meridian-block">
+          <div class="meridian-name">膽經</div>
+          <div class="ptype-grid">
+            <div class="ptype-chip pt-yuan"><span class="plabel">原穴</span><div class="pname">丘墟</div><div class="ploc">足外踝前下方，趾長伸肌腱外側凹陷處</div></div>
+            <div class="ptype-chip pt-he"><span class="plabel">合穴</span><div class="pname">陽陵泉</div><div class="ploc">腓骨小頭前下方凹陷處</div></div>
+            <div class="ptype-chip pt-luo"><span class="plabel">絡穴</span><div class="pname">光明</div><div class="ploc">外踝尖上 5 寸，腓骨前緣</div></div>
+            <div class="ptype-chip pt-xi"><span class="plabel">郄穴</span><div class="pname">外丘</div><div class="ploc">外踝尖上 7 寸，腓骨後緣</div></div>
+          </div>
+        </div>
+        <div class="meridian-block">
+          <div class="meridian-name">膀胱經</div>
+          <div class="ptype-grid">
+            <div class="ptype-chip pt-yuan"><span class="plabel">原穴</span><div class="pname">京骨</div><div class="ploc">足外側，第五跖骨粗隆下方赤白肉際</div></div>
+            <div class="ptype-chip pt-he"><span class="plabel">合穴</span><div class="pname">委中</div><div class="ploc">膕窩橫紋中點</div></div>
+            <div class="ptype-chip pt-luo"><span class="plabel">絡穴</span><div class="pname">飛揚</div><div class="ploc">外踝尖上 7 寸，腓腸肌外下緣</div></div>
+            <div class="ptype-chip pt-xi"><span class="plabel">郄穴</span><div class="pname">金門</div><div class="ploc">足外踝前下方，骰骨下緣凹陷處</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="guasha">
+    <div class="section-head"><span class="section-num">03</span><h2 class="section-title">刮痧：核心定義與作用機制</h2></div>
+    <div class="card" style="margin-bottom:1.2rem;">
+      <p style="font-size:.95rem; color:var(--ink-soft);"><b style="color:var(--ink)">「刮」</b>：使用邊緣平滑的器具（牛角板、玉石、陶瓷湯匙等），配合潤滑介質（刮痧油、嬰兒油或清水），在皮膚表面特定經絡、穴位或肌肉筋膜走向進行單方向的刮拭。</p>
+      <p style="font-size:.95rem; color:var(--ink-soft); margin-top:.8rem;"><b style="color:var(--ink)">「痧」</b>：刮拭後皮膚浮現的紅色、紫紅色或暗青色斑點斑塊（醫學上為皮下微血管破裂所致的瘀血點）。中醫理論中，痧被視為體內阻滯的氣血、代謝廢物，以及風、寒、濕、熱等邪氣被逼出體表的表現。</p>
+    </div>
+    <div class="mech-list">
+      <div class="mech-item"><span class="mech-num">1</span><div class="mech-text"><b>疏通經絡、活血化瘀</b><span>擴張微血管，加速局部血液與淋巴循環，改善組織缺氧，有助消除深層肌肉沾黏與僵硬</span></div></div>
+      <div class="mech-item"><span class="mech-num">2</span><div class="mech-text"><b>行氣止痛、調整陰陽</b><span>迅速緩解因氣血凝滯或經絡不通引起的痠痛，如肩頸僵硬、背部緊繃、頭痛</span></div></div>
+      <div class="mech-item"><span class="mech-num">3</span><div class="mech-text"><b>發汗解表、清熱排邪</b><span>感冒初期、中暑或急性扭挫傷時，激發人體防禦機制，促進體內邪氣外洩</span></div></div>
+    </div>
+    <div class="quote">百病皆起於瘀，瘀者塞也，塞著不通，不通則痛。<span class="who">—— 元代醫學家 朱丹溪</span></div>
+    <div class="card">
+      <div style="font-weight:700; margin-bottom:.6rem;">科學角度驗證刮痧：三大面向</div>
+      <div style="font-size:.92rem; color:var(--ink-soft); display:flex; flex-direction:column; gap:.5rem;">
+        <div>① 刮痧能最有效增加血流，促進組織修復</div>
+        <div>② 門閥控制理論——觸感跑得比痛感快</div>
+        <div>③ 生物化學反應，提高自體免疫力</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="guasha-safety">
+    <div class="section-head"><span class="section-num">04</span><h2 class="section-title">刮痧前後注意事項</h2></div>
+
+    <div class="caution">
+      <div class="ctitle"><span class="num">1</span>不宜刮痧的族群與禁忌症</div>
+      <ul>
+        <li><b>皮膚受損或病變處：</b>創傷、潰瘍、燒燙傷、嚴重皮膚過敏、不明腫塊或腫瘤處，嚴禁直接刮拭</li>
+        <li><b>具有出血傾向者：</b>血友病、血小板減少症或長期服用抗凝血藥物者，凝血功能較差，極易造成大片皮下出血</li>
+        <li><b>孕婦：</b>腹部及腰骶部絕對禁刮，以免刺激子宮收縮</li>
+        <li><b>特殊狀態：</b>極度飢餓、飽食後、剛飲酒後、身體極度虛弱或大汗淋漓時不宜，以防「暈刮」（頭暈、心悸、噁心）</li>
+        <li><b>慢性重症：</b>嚴重心血管疾病急性期、肝腎功能衰竭或全身水腫患者應避免</li>
+      </ul>
+    </div>
+    <div class="caution">
+      <div class="ctitle"><span class="num">2</span>操作時的環境與手法原則</div>
+      <ul>
+        <li><b>必須使用潤滑介質：</b>搭配刮痧油、嬰兒油或潤滑乳液，保護表皮角質層不被擦傷</li>
+        <li><b>嚴防風寒侵襲：</b>環境應溫暖，避免風扇或冷氣直吹——刮痧會使毛孔張開，受風著涼容易引發感冒或寒邪入侵</li>
+        <li><b>力求柔和均勻：</b>由輕漸重，順應經絡走向或肌肉纖維方向（由上而下、由內向外）；並非出痧越黑越痛效果越好，過度暴力刮拭反而破壞深層組織</li>
+      </ul>
+    </div>
+    <div class="caution">
+      <div class="ctitle"><span class="num">3</span>刮痧後的日常照護</div>
+      <ul>
+        <li><b>補充溫開水：</b>加速體內代謝廢物排出</li>
+        <li><b>避免立即洗澡：</b>至少等待 3 小時以上再洗澡（水溫應偏溫熱），切忌立刻洗冷水澡或游泳</li>
+        <li><b>掌握施作頻率：</b>同一部位需等前一次的痧完全退去、皮膚恢復正常膚色後才能再進行</li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="guasha-map">
+    <div class="section-head"><span class="section-num">05</span><h2 class="section-title">常見刮痧部位與肌肉位置</h2></div>
+
+    <div class="region">
+      <div class="region-head"><div class="region-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="6" r="3"/><path d="M5 20c0-4 3-7 7-7s7 3 7 7"/></svg></div>
+        <div><div class="region-title">肩頸部</div><div class="region-tags"><span class="rtag">足少陽膽經</span><span class="rtag">足太陽膀胱經</span><span class="rtag">手太陽小腸經</span></div></div>
+      </div>
+      <div class="region-muscle"><b>對應肌肉：</b>斜方肌、肩胛提肌、胸大肌</div>
+      <div class="region-use">改善長期使用電腦引起的「電腦肩」、頸椎僵硬與張力性頭痛</div>
+    </div>
+    <div class="region">
+      <div class="region-head"><div class="region-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 4v16M18 4v16M6 10h12M6 16h12"/></svg></div>
+        <div><div class="region-title">背部上段</div><div class="region-tags"><span class="rtag">足太陽膀胱經（第一、二側線）</span></div></div>
+      </div>
+      <div class="region-muscle"><b>對應肌肉：</b>大、小菱形肌、斜方肌</div>
+      <div class="region-use">緩解膏肓痛、背部沉重感及圓肩駝背造成的胸悶與緊繃</div>
+    </div>
+    <div class="region">
+      <div class="region-head"><div class="region-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 3v6l-3 4v8M15 3v6l3 4v8"/><path d="M9 11h6"/></svg></div>
+        <div><div class="region-title">腰部與薦臀部</div><div class="region-tags"><span class="rtag">足太陽膀胱經</span><span class="rtag">督脈</span></div></div>
+      </div>
+      <div class="region-muscle"><b>對應肌肉：</b>腰方肌、脊柱豎直肌、臀大肌</div>
+      <div class="region-use">針對久坐引起的慢性下腰痛與腰部僵硬（註：孕婦腰骶部禁刮）</div>
+    </div>
+    <div class="region">
+      <div class="region-head"><div class="region-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 8l5 2 2 10M19 8l-5 2-2 10"/><circle cx="12" cy="5" r="2.2"/></svg></div>
+        <div><div class="region-title">上肢外側</div><div class="region-tags"><span class="rtag">手陽明大腸經</span><span class="rtag">手少陽三焦經</span><span class="rtag">手太陽小腸經</span></div></div>
+      </div>
+      <div class="region-muscle"><b>對應肌肉：</b>三角肌、肱三頭肌及肱二頭肌</div>
+      <div class="region-use">適用於手臂痠麻、肩膀外展無力或五十肩早期的輔助舒緩</div>
+    </div>
+    <div class="region">
+      <div class="region-head"><div class="region-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M10 3v8l-3 4v6M14 3v8l3 4v6"/></svg></div>
+        <div><div class="region-title">小腿後側</div><div class="region-tags"><span class="rtag">足太陽膀胱經</span></div></div>
+      </div>
+      <div class="region-muscle"><b>對應肌肉：</b>腓腸肌、比目魚肌</div>
+      <div class="region-use">適合經常久站、跑步或容易夜間小腿抽筋（足痙攣）的個案</div>
+    </div>
+  </section>
+
+  <section id="cupping">
+    <div class="section-head"><span class="section-num">06</span><h2 class="section-title">拔罐：核心原理與臨床功效</h2></div>
+    <div style="font-weight:700; margin-bottom:.8rem; font-size:1rem;">① 核心作用原理</div>
+    <div class="mech-list" style="margin-bottom:1.3rem;">
+      <div class="mech-item"><span class="mech-num" style="background:var(--indigo)">1</span><div class="mech-text"><b>負壓吸附與局部充血</b><span>罐內負壓將皮下組織、肌肉向上拉提，使局部微血管擴張充血，甚至產生輕微皮下出血（罐印／出痧）</span></div></div>
+      <div class="mech-item"><span class="mech-num" style="background:var(--indigo)">2</span><div class="mech-text"><b>深層刺激</b><span>相比刮痧，拔罐的負壓穿透力更深，能作用到較深層的肌肉與筋膜結構</span></div></div>
+    </div>
+    <div style="font-weight:700; margin-bottom:.8rem; font-size:1rem;">② 主要臨床功效</div>
+    <div class="mech-list">
+      <div class="mech-item"><span class="mech-num" style="background:var(--indigo)">1</span><div class="mech-text"><b>疏通經絡、行氣活血</b><span>改善局部血液與淋巴循環，加速組織缺氧改善與代謝廢物排出</span></div></div>
+      <div class="mech-item"><span class="mech-num" style="background:var(--indigo)">2</span><div class="mech-text"><b>祛風散寒、除濕通絡</b><span>對風、寒、濕邪閉阻經絡引起的肌肉痠痛、關節僵硬有很好的舒緩作用</span></div></div>
+      <div class="mech-item"><span class="mech-num" style="background:var(--indigo)">3</span><div class="mech-text"><b>緩解深層肌肉緊繃</b><span>特別適合背部、腰臀部等肌肉厚實的部位，能有效放鬆緊繃的肌纖維</span></div></div>
+    </div>
+  </section>
+
+  <section id="cupping-map">
+    <div class="section-head"><span class="section-num">07</span><h2 class="section-title">常見拔罐部位與對應穴位</h2></div>
+
+    <div class="region">
+      <div class="region-head"><div class="region-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="6" r="3"/><path d="M5 20c0-4 3-7 7-7s7 3 7 7"/></svg></div>
+        <div><div class="region-title">肩頸部／肩背區</div><div class="region-tags"><span class="rtag">膀胱經・風門</span><span class="rtag">三焦經</span><span class="rtag">膽經・肩井</span></div></div>
+      </div>
+      <div class="region-muscle"><b>常用穴位：</b>風門、天宗、膏肓、肩井　<b>對應肌肉：</b>斜方肌、肩胛提肌、大小菱形肌、胸大肌</div>
+      <div class="region-use">緩解肩頸僵硬、膏肓痛、肩膀沉重、改善胸悶與舒緩感冒初期的背部緊繃</div>
+    </div>
+    <div class="region">
+      <div class="region-head"><div class="region-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 4v16M18 4v16M6 10h12M6 16h12"/></svg></div>
+        <div><div class="region-title">背部中下段／腰背區</div><div class="region-tags"><span class="rtag">膀胱經</span><span class="rtag">督脈</span></div></div>
+      </div>
+      <div class="region-muscle"><b>常用穴位：</b>肝俞、脾俞、腎俞、命門　<b>對應肌肉：</b>脊柱豎直肌（胸段與腰段）、背闊肌</div>
+      <div class="region-use">針對慢性下腰痛、久坐引起的背部疲勞、腰肌勞損及脊柱周邊氣血循環不良</div>
+    </div>
+    <div class="region">
+      <div class="region-head"><div class="region-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 3v6l-3 4v8M15 3v6l3 4v8"/><path d="M9 11h6"/></svg></div>
+        <div><div class="region-title">腰臀部／骶部</div><div class="region-tags"><span class="rtag">足膀胱經</span><span class="rtag">督脈</span><span class="rtag">膽經</span></div></div>
+      </div>
+      <div class="region-muscle"><b>常用穴位：</b>關元俞、八髎、環跳　<b>對應肌肉：</b>腰方肌、臀大肌起始處、下段脊柱豎直肌</div>
+      <div class="region-use">改善腰部緊繃僵硬、臀部深層痠痛、骨盆周邊循環（註：孕婦腰骶部及腹部嚴禁拔罐）</div>
+    </div>
+    <div class="region">
+      <div class="region-head"><div class="region-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 8l5 2 2 10M19 8l-5 2-2 10"/><circle cx="12" cy="5" r="2.2"/></svg></div>
+        <div><div class="region-title">肩上臂外側</div><div class="region-tags"><span class="rtag">大腸經</span><span class="rtag">三焦經</span></div></div>
+      </div>
+      <div class="region-muscle"><b>常用穴位：</b>肩髃、肩髎、臂臑　<b>對應肌肉：</b>三角肌、肱三頭肌</div>
+      <div class="region-use">輔助舒緩肩關節活動受限、五十肩早期僵硬或上肢沉重無力感</div>
+    </div>
+    <div class="region">
+      <div class="region-head"><div class="region-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M10 3v8l-3 4v6M14 3v8l3 4v6"/></svg></div>
+        <div><div class="region-title">小腿後側</div><div class="region-tags"><span class="rtag">膀胱經</span></div></div>
+      </div>
+      <div class="region-muscle"><b>常用穴位：</b>委中、承山、飛揚　<b>對應肌肉：</b>腓腸肌、比目魚肌</div>
+      <div class="region-use">適合久站、運動後的小腿緊繃、腓腸肌痙攣（抽筋）與下肢沉重感</div>
+    </div>
+
+    <div class="caution" style="margin-top:1.2rem;">
+      <div class="ctitle"><span class="num">!</span>拔罐前後注意事項</div>
+      <ul>
+        <li><b>留罐時間不宜過長：</b>一般建議 5～15 分鐘（肌肉豐厚處可稍長，肌肉薄或敏感處應縮短），切勿為追求「深紫色罐印」故意延長，否則易致水泡或組織損傷</li>
+        <li><b>施作頻率須間隔：</b>同一部位不能連續天天拔罐，須等前次罐印完全消退、皮膚恢復正常膚色後才能再施作</li>
+        <li><b>認識暈罐：</b>少數個案可能出現頭暈、心悸、噁心、胸悶、面色蒼白甚至冒冷汗（多見於飢餓、極度疲勞、精神緊張或初次體驗者）</li>
+        <li><b>應對措施：</b>若感到不適，應立即取下所有罐具，扶平臥休息並注意保暖，適量補充溫開水或糖水，通常休息片刻即可緩解</li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="homework">
+    <div class="section-head"><span class="section-num">08</span><h2 class="section-title">回家練習題</h2></div>
+    <p class="section-lede">用這堂課學到的刮痧技巧，練習幫家人照護：</p>
+    <div class="homework">
+      <div class="hw-item"><span class="hw-num">1</span><span class="hw-text">幫老公處理肩頸痠痛，用刮痧 <b>膽經、膀胱經</b></span></div>
+      <div class="hw-item"><span class="hw-num">2</span><span class="hw-text">幫小孩處理頭痛，用刮痧 <b>膽經、膀胱經</b></span></div>
+      <div class="hw-item"><span class="hw-num">3</span><span class="hw-text">幫自己減脂塑身，用刮痧 <b>膽經、膀胱經</b></span></div>
+    </div>
+  </section>
+
+  <section id="biblio">
+    <div class="section-head"><span class="section-num">09</span><h2 class="section-title">參考書籍</h2></div>
+    <ul class="biblio">
+      <li><b>生活上常見病症的民俗調理運用</b>・潘隆森 醫師編著</li>
+      <li><b>科學刮痧修護全書</b>・黃卉君 著</li>
+      <li><b>人體使用手冊</b>・吳清忠 著</li>
+      <li><b>身體情緒疼痛地圖</b>・石垣英俊 著</li>
+      <li><b>人體解剖全書</b>・安德盧・貝爾 著</li>
+    </ul>
+  </section>
+
+  <div class="closing">
+    <div class="location-row" style="display:inline-block;">📍 上課地點：<b>台中市南區</b>（報名後提供詳細地址）</div>
+    <p class="motto" style="margin-top:1.4rem;">正念趨動<span class="x">×</span>行為趨動</p>
+    <div class="next-badge">預告下堂課　<b>牛角撥經＋頭部紓壓</b></div>
+  </div>
+</div>
+
+<footer>經絡照護共好學堂・第三堂講義　台灣經絡照護共好協會</footer>
+
+<button class="print-btn" onclick="window.print()">🖨️ 列印講義</button>
